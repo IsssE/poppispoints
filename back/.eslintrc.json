@@ -19,6 +19,20 @@
     ],
     "rules": {
         "no-console": 1,
-        "no-inferrable-types": 0
+        "no-inferrable-types": 0,
+        "default-param-last": 1,
+        "@typescript-eslint/member-delimiter-style": [
+            "warn",
+            {
+                "multiline": {
+                    "delimiter": "semi",
+                    "requireLast": true
+                },
+                "singleline": {
+                    "delimiter": "semi",
+                    "requireLast": false
+                }
+            }
+        ]
     }
 }
