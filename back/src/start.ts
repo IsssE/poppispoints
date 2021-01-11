@@ -3,7 +3,6 @@ import express = require("express")
 import { Server } from "http";
 import logger from 'loglevel';
 import { getRoutes } from "./routes";
-import * as scores from "./routes/scores";
 
 
 const startServer = (): Promise<Server> => {

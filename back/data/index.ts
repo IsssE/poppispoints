@@ -13,6 +13,7 @@ export interface IKVData {
     single: ISingle;
     double: IDouble;
     group: ITeam;
+    league: string;
 }
 
 interface ISingle {
@@ -34,6 +35,7 @@ interface ITeam {
     score?: number;
     league?: string;
 }
+
 export default class DataParser {
     public data: Promise<IKVData[]>;
     constructor() {
@@ -41,39 +43,40 @@ export default class DataParser {
     }
 
     private pareseDataKV = (): Promise<IKVData[]> => {
+        const results: IKVData[] = [];
+        let yksi = 0;
         return new Promise((resolve, reject) => {
-            const results: IKVData[] = [];
             fs.createReadStream('data/kv_2020_tulokset.csv')
                 .pipe(csv())
-                .on('data', (data) => {
-                    if(data["TimeStamp"])
-                    {
+                .on('data', (data: string[]) => {
+                    if (data[0]) {
                         results.push({
-                            time: data["TimeStamp"],
-                            representation: data["Edustus"],
-                            proof: data["Todiste"],
-                            type: data["Laji"],
+                            time: new Date(data[0]),
+                            representation: data[1],
+                            proof: data[2],
+                            type: data[3],
+                            league: data[4],
                             single: {
-                                player: data["Pelaaja"],
-                                score: data["Tulos"]
+                                player: data[5],
+                                score: parseInt(data[6]),
                             },
                             double: {
-                                p1: data["Pelaaja1"],
-                                p2: data["Pelaaja2"],
-                                score: data["Tulos"]
+                                p1: data[7],
+                                p2: data[8],
+                                score: parseInt(data[9])
                             },
                             group: {
-                                p1: data["Pelaaja1"],
-                                p2: data["Pelaaja2"],
-                                p3: data["Pelaaja3"],
-                                p4: data["Pelaaja4"],
-                                score: data["Tulos"],
-                                league: data["Miesten_vai_naisten"],
+                                p1: data[9],
+                                p2: data[10],
+                                p3: data[11],
+                                p4: data[12],
+                                score: parseInt(data[13]),
+                                league: data[14],
                             },
                         })
-                        //console.debug("data", data);
-                        results.push(data);
                     }
+
+
                 }).on('end', () => {
                     resolve(results)
                 }).on('error', (err) => {
