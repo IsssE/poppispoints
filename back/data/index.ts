@@ -1,18 +1,13 @@
-import { rejects } from 'assert';
 import csv = require('csv-parse');
 import fs = require('fs');
-
+import moment = require('moment');
 
 export interface IKVData {
     time: Date;
     representation: string;
     proof: string;
-    type: string;
-    // Being layzy for now. Putting data in all
-    // later check which single/double/team
-    single: ISingle;
-    double: IDouble;
-    group: ITeam;
+    variant: string;
+    result?: ISingle | IDouble | ITeam;
     league: string;
 }
 
@@ -44,37 +39,47 @@ export default class DataParser {
 
     private pareseDataKV = (): Promise<IKVData[]> => {
         const results: IKVData[] = [];
-        let yksi = 0;
+        // No interest in looking for document to handle header
+        // just skip first
+        let first = true;
         return new Promise((resolve, reject) => {
             fs.createReadStream('data/kv_2020_tulokset.csv')
                 .pipe(csv())
                 .on('data', (data: string[]) => {
-                    if (data[0]) {
-                        results.push({
-                            time: new Date(data[0]),
+                    
+                    if (data[0] && !first) {
+                        const date: moment.Moment = moment(data[0], "dd/mm/yyyy hh:mm:ss")
+                        const val: IKVData = {
+                            time: date.toDate(),
                             representation: data[1],
                             proof: data[2],
-                            type: data[3],
+                            variant: data[3],
                             league: data[4],
-                            single: {
+                        }
+                        if (data[6]) {
+                            val.result = {
                                 player: data[5],
                                 score: parseInt(data[6]),
-                            },
-                            double: {
+                            };
+                        } else if (data[9]) {
+                            val.result = {
                                 p1: data[7],
                                 p2: data[8],
                                 score: parseInt(data[9])
-                            },
-                            group: {
-                                p1: data[9],
-                                p2: data[10],
-                                p3: data[11],
-                                p4: data[12],
-                                score: parseInt(data[13]),
-                                league: data[14],
-                            },
-                        })
+                            };
+                        } else if(data[14]) {
+                            val.result = {
+                                p1: data[10],
+                                p2: data[11],
+                                p3: data[12],
+                                p4: data[13],
+                                score: parseInt(data[14]),
+                                league: data[15],
+                            }
+                        }
+                        results.push(val);
                     }
+                    first = false;
 
 
                 }).on('end', () => {
