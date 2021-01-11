@@ -1,17 +1,7 @@
-import { Application } from "express";
-import express = require("express")
-import * as results from "./results/controller";
+import logger from 'loglevel'
 
-const app: Application = express();
-const port = 8080; // default port to listen
+import { startServer } from './start'
 
-// define a route handler for the default home page
-app.get( "/", ( req, res ) => {
-    res.send( "Hello world!" );
-} );
+logger.setLevel('info')
 
-// start the Express server
-app.listen( port, () => {
-    console.log( `server started at http://localhost:${ port }` );
-    console.log(results.get());
-} );
+startServer()
