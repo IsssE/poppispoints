@@ -2,7 +2,7 @@
 // But hey! It works. Will see what happens.
 // it's always possible to refactor ":D"
 import express = require("express");
-import DataParser from "../../data";
+import DataParser, { IKVData } from "../../data";
 
 
 const getScoreRoutes = (): express.Router => {
@@ -15,15 +15,12 @@ const getScoreRoutes = (): express.Router => {
 
 }
 
-const getData = ( req: express.Request, res: express.Response) => {
+const getData = ( req: express.Request, res: express.Response<IKVData>) => {
     if(req.method === "GET") {
         const parser = new DataParser();
         parser.data.then(x => {
             res.send(x);
         });
-    }
-    else {
-        res.send("hello")
     }
 }
 

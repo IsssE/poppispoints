@@ -13,7 +13,7 @@ const startServer = (): Promise<Server> => {
     app.use('/api', getRoutes())  
 
     // add the generic error handler just in case errors are missed by middleware
-    app.use(errorMiddleware)
+    //app.use(errorMiddleware)
 
     return new Promise(resolve => {
         const server = app.listen(port, () => {
@@ -24,7 +24,8 @@ const startServer = (): Promise<Server> => {
 }
 // here's our generic error handler for situations where we didn't handle
 // errors properly
-function errorMiddleware(error, req, res, next) {
+/* rip typiing
+function errorMiddleware(error: Error, req: Request, res: Response, next:express.NextFunction) {
     if (res.headersSent) {
         next(error)
     } else {
@@ -36,6 +37,6 @@ function errorMiddleware(error, req, res, next) {
             ...(process.env.NODE_ENV === 'production' ? null : { stack: error.stack }),
         })
     }
-}
+}*/
 
 export { startServer };

@@ -1,8 +1,14 @@
-import csv = require('csv-parse');
-import fs = require('fs');
-import moment = require('moment');
+import csv from 'csv-parse';
+import * as fs from'fs';
+import moment from 'moment';
+import { Moment } from 'moment';
+
 
 export interface IKVData {
+    headers: string[];
+    data: IData[];
+}
+interface IData {
     time: Date;
     representation: string;
     proof: string;
@@ -32,13 +38,14 @@ interface ITeam {
 }
 
 export default class DataParser {
-    public data: Promise<IKVData[]>;
+    public data: Promise<IKVData>;
     constructor() {
         this.data = this.pareseDataKV();
     }
 
-    private pareseDataKV = (): Promise<IKVData[]> => {
-        const results: IKVData[] = [];
+    private pareseDataKV = (): Promise<IKVData> => {
+        const resultData: IData[] = [];
+        let headers: string[] = []
         // No interest in looking for document to handle header
         // just skip first
         let first = true;
@@ -46,10 +53,9 @@ export default class DataParser {
             fs.createReadStream('data/kv_2020_tulokset.csv')
                 .pipe(csv())
                 .on('data', (data: string[]) => {
-                    
                     if (data[0] && !first) {
-                        const date: moment.Moment = moment(data[0], "dd/mm/yyyy hh:mm:ss")
-                        const val: IKVData = {
+                        const date: Moment = moment(data[0], "dd/mm/yyyy hh:mm:ss")
+                        const val: IData = {
                             time: date.toDate(),
                             representation: data[1],
                             proof: data[2],
@@ -77,14 +83,19 @@ export default class DataParser {
                                 league: data[15],
                             }
                         }
-                        results.push(val);
+                        resultData.push(val);
+                    } else {
+                        if(data[0]) {
+                            const headerData: string[] = [...data.slice(0,5), "result"]
+                            
+                            headers = headerData;
+                        }
                     }
                     first = false;
 
-
                 }).on('end', () => {
-                    resolve(results)
-                }).on('error', (err) => {
+                    resolve({data: resultData, headers: headers})
+                }).on('error', (err: Error) => {
                     reject(err.message);
                 });
         });
