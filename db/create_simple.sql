@@ -2,8 +2,7 @@ CREATE TABLE [IF NOT EXISTS] players (
     id INTEGER PRIMARY KEY,
     username TEXT NOT NULL,
     result_id INTEGER NOT NULL,
-    FOREIGN KEY (results)
-        REFERENCES results (result_id)
+    FOREIGN KEY (result_id) REFERENCES results (id)
 )
 
 -- Might want a many to one table here to link 
@@ -15,5 +14,13 @@ CREATE TABLE [IF NOT EXISTS] results (
     time  DATE,
     score INTEGER,
     video TEXT,
-
+    variant INTEGER,
+    FOREIGN KEY (variant) REFERENCES variants(id)
 )
+
+CREATE TABLE [IF NOT EXISTS] variants {
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    max_players INTEGER NOT NULL,
+    description TEXT,
+}

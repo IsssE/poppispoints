@@ -8,7 +8,7 @@ export interface IKVData {
     headers: string[];
     data: IData[];
 }
-interface IData {
+export interface IData {
     time: Date;
     representation: string;
     proof: string;
