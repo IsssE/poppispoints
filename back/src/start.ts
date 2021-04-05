@@ -1,14 +1,15 @@
+import { initDb } from "../data/db";
 import { Application } from "express";
 import express = require("express")
 import { Server } from "http";
 import logger from 'loglevel';
 import { getRoutes } from "./routes";
 
-
 const startServer = (): Promise<Server> => {
 
     const app: Application = express();
     const port = 8080; // default port to listen
+    initDb();
 
     app.use('/api', getRoutes())  
 

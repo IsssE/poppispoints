@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "start": "nodemon src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts"
   },
   "keywords": [],
   "author": "Tommi Linnamaa",
@@ -16,16 +17,19 @@
     "express": "^4.17.1",
     "loglevel": "^1.7.1",
     "moment": "^2.29.1",
-    "neat-csv": "^6.0.0"
+    "neat-csv": "^6.0.0",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.9",
-    "@types/node": "^14.14.20",
+    "@types/node": "^14.14.37",
+    "@types/sqlite3": "^3.1.7",
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
     "eslint": "^7.17.0",
     "nodemon": "^2.0.6",
     "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.6",
     "typescript": "^4.1.3"
   }
 }

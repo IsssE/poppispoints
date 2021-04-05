@@ -2,20 +2,22 @@ CREATE TABLE [IF NOT EXISTS] players (
     id INTEGER PRIMARY KEY,
     username TEXT NOT NULL,
     result_id INTEGER NOT NULL,
-    FOREIGN KEY (result_id) REFERENCES results (id)
 )
-
--- Might want a many to one table here to link 
--- multiple players to single result.
 
 CREATE TABLE [IF NOT EXISTS] results (
     id INTEGER PRIMARY KEY,
     location TEXT,
-    time  DATE,
+    time DATE,
     score INTEGER,
-    video TEXT,
+    proof TEXT,
     variant INTEGER,
-    FOREIGN KEY (variant) REFERENCES variants(id)
+)
+
+CREATE TABLE [IF NOT EXISTS] players_results (
+    player_id INTEGER,
+    result_id INTEGER,
+    FOREIGN KEY (player_id) REFERENCES results (id)
+    FOREIGN KEY (result_id) REFERENCES players (id)
 )
 
 CREATE TABLE [IF NOT EXISTS] variants {

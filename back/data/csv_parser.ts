@@ -37,7 +37,7 @@ interface ITeam {
     league?: string;
 }
 
-export default class DataParser {
+export class DataParser {
     public data: Promise<IKVData>;
     constructor() {
         this.data = this.pareseDataKV();
