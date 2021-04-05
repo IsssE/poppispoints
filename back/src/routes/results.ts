@@ -4,6 +4,7 @@
 import express = require("express");
 import { DataParser, IKVData, IData } from "../../data/csv_parser";
 import * as PlayerModel from "../../data/player";
+import * as ResultModel from "../../data/result";
 
 const getScoreRoutes = (): express.Router => {
 
@@ -12,7 +13,7 @@ const getScoreRoutes = (): express.Router => {
 
     router.get('/excel', getExcelData)
     router.post('/newScore', setNewScore)
-    router.get('/', getResults)
+    router.get('/', getScores)
 
     return router
 
@@ -46,8 +47,10 @@ const getPlayerScore = async (variant: string = null, player: string = null) => 
 
 }
 
-const getResults = async () => {
-    PlayerModel.getPlayerData();
+const getScores = async (req: express.Request, res: express.Response) => {
+    
+    ResultModel.getResultsAll();
+    res.status(200).send("all okay")
 }
 
 export { getScoreRoutes }

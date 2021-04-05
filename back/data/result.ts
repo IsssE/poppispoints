@@ -10,6 +10,7 @@ export interface IResult {
 }
 
 export const getResultsAll = () => {
+    console.log("getResultsAll")
     const db = getDb();
     console.log("is db null", db)
 }
