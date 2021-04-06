@@ -35,9 +35,7 @@ const setNewScore = async (req: express.Request, res: express.Response) => {
     // TODO: continue with saving the data to db.
     // https://auth0.com/blog/node-js-and-typescript-tutorial-build-a-crud-api/
     // seemd like nice tutorial. Prolly need to do some refactoring
-
-
-
+    
 }
 // TODO: create type for all variants.
 // This should be a list of all variants in db

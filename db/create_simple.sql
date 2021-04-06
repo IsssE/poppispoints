@@ -6,10 +6,10 @@ CREATE TABLE IF NOT EXISTS players (
 
 CREATE TABLE IF NOT EXISTS results (
     id INTEGER PRIMARY KEY,
-    location TEXT,
+    location VARCHAR,
     time DATE,
     score INTEGER,
-    proof TEXT,
+    proof VARCHAR,
     variant INTEGER
 );
 
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS players_results (
 
 CREATE TABLE IF NOT EXISTS variants (
     id INTEGER PRIMARY KEY,
-    name TEXT,
+    name VARCHAR,
     max_players INTEGER NOT NULL,
-    description TEXT
+    description VARCHAR
 )

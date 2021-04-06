@@ -1,12 +1,17 @@
 import { getDb } from "../data/db"
+import { IData } from "./csv_parser";
 
-export interface IResult {
+interface IResult {
     id: number;
     location: string;
     time: Date;
     score: number;
     proof: string;
     variant: number;
+}
+export const insertResult = (name: string, result: IData) => {
+    const db = getDb();
+
 }
 
 export const getResultsAll = () => {

@@ -1,5 +1,5 @@
 import express = require("express");
-import { getScoreRoutes } from './results';
+import { getScoreRoutes } from './resultsController';
 // any other routes imports would go here
 //import {getMathRoutes} from './math'
 

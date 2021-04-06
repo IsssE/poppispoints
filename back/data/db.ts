@@ -1,23 +1,17 @@
-import sqlite3 = require('sqlite3')
-import path = require('path')
+import { Pool } from 'pg';
+import { cs }from './secrets';
 
-let db: sqlite3.Database;
-const DBLOC = "/../../db/popoi.db";
+let pool: Pool = null;
 
 export const initDb = () => {
-    if(db) {
+    if(pool) {
         console.warn("initing database again");
     }
-    
-    const relPath = `${__dirname}${DBLOC}`
-    console.debug(relPath)
-
-    db = new sqlite3.Database(relPath);
-    console.debug("we managed to create db", db)
+    pool = new Pool(cs);
 }
 export const getDb = ( ) => {
-    if(db) {
-        return db
+    if(pool) {
+        return pool
     }
     throw new Error("Trying to get DB before initialization")
 }
