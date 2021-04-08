@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { cs }from './secrets';
+import { cs }from '../config/secrets';
 
 let pool: Pool = null;
 

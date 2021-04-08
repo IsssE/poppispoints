@@ -1,5 +1,5 @@
 import { IResult } from "./result";
-import { getDb } from "../data/db"
+import { getDb } from "./db"
 /*
 interface IPlayer {
     id: number,
