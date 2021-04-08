@@ -5,6 +5,7 @@ import express = require("express");
 import { DataParser, IKVData, IData } from "../../data/csv_parser";
 import * as PlayerModel from "../../data/player";
 import * as ResultModel from "../../data/result";
+import * as VariantDb from "../../data/variants";
 
 const getScoreRoutes = (): express.Router => {
 
@@ -47,8 +48,8 @@ const getPlayerScore = async (variant: string = null, player: string = null) => 
 
 const getScores = async (req: express.Request, res: express.Response) => {
     
-    ResultModel.getResultsAll();
-    res.status(200).send("all okay")
+    
+    res.status(200).send(await VariantDb.getAllVariants());
 }
 
 export { getScoreRoutes }

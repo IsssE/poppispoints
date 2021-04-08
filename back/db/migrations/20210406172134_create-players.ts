@@ -4,28 +4,27 @@ import { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
     Promise.all([
-        knex.schema.createTableIfNotExists('players', (table) => {
+        knex.schema.createTable('players', (table) => {
             table.increments('id');
-            table.string('username');
-            table.integer('result_id');
+            table.string('username').notNullable();
         }),
-        knex.schema.createTableIfNotExists('results', (table) => {
+        knex.schema.createTable('results', (table) => {
             table.increments('id');
-            table.string('location');
-            table.date('time');
-            table.integer('score');
-            table.string('proof');
-            table.integer('variant_id');
+            table.string('location').notNullable();
+            table.date('time').notNullable();
+            table.integer('score').notNullable();
+            table.string('proof').notNullable();
+            table.integer('variant_id').notNullable();
         }),
-        knex.schema.createTableIfNotExists('players_results', (table) => {
-            table.integer('player_id').references('players.result_id');
+        knex.schema.createTable('players_results', (table) => {
+            table.integer('player_id').references('players.id');
             table.integer('result_id').references('results.id');
             table.unique(['player_id', 'result_id'])
         }),
-        knex.schema.createTableIfNotExists('variants',(table) => {
+        knex.schema.createTable('variants',(table) => {
             table.increments('id');
-            table.string('name');
-            table.string('description')
+            table.string('name').notNullable();
+            table.string('description').notNullable();
         })
 
     ])
