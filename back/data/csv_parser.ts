@@ -3,6 +3,7 @@ import * as fs from'fs';
 import moment from 'moment';
 import { Moment } from 'moment';
 
+export type IPlayers = ISingle | IDouble | ITeam;
 
 export interface IKVData {
     headers: string[];
@@ -13,28 +14,25 @@ export interface IData {
     representation: string;
     proof: string;
     variant: string;
-    result?: ISingle | IDouble | ITeam;
+    players?: IPlayers;
     league: string;
+    score: number;
 }
 
 interface ISingle {
-    player?: string;
-    score?: number;
+    p1: string;
 }
 
 interface IDouble {
-    p1?: string;
-    p2?: string;
-    score?: number;
+    p1: string;
+    p2: string;
 }
 
 interface ITeam {
-    p1?: string;
-    p2?: string;
-    p3?: string;
-    p4?: string;
-    score?: number;
-    league?: string;
+    p1: string;
+    p2: string;
+    p3: string;
+    p4: string;
 }
 
 export class DataParser {
@@ -55,33 +53,34 @@ export class DataParser {
                 .on('data', (data: string[]) => {
                     if (data[0] && !first) {
                         const date: Moment = moment(data[0], "dd/mm/yyyy hh:mm:ss")
-                        const val: IData = {
+                        let val: IData = {
                             time: date.toDate(),
                             representation: data[1],
                             proof: data[2],
                             variant: data[3],
                             league: data[4],
+                            score: null,
                         }
                         if (data[6]) {
-                            val.result = {
-                                player: data[5],
-                                score: parseInt(data[6]),
-                            };
+                            val.players = {
+                                p1: data[5],
+                            },
+                            val = {...val, score: parseInt(data[6])}
                         } else if (data[9]) {
-                            val.result = {
+                            val.players = {
                                 p1: data[7],
                                 p2: data[8],
-                                score: parseInt(data[9])
                             };
+                            val = {...val, score: parseInt(data[9]) }
                         } else if(data[14]) {
-                            val.result = {
+                            val.players = {
                                 p1: data[10],
                                 p2: data[11],
                                 p3: data[12],
                                 p4: data[13],
-                                score: parseInt(data[14]),
-                                league: data[15],
+                                //league: data[15],
                             }
+                            val = {...val, score: parseInt(data[14])}
                         }
                         resultData.push(val);
                     } else {
