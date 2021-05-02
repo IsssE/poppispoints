@@ -3,11 +3,14 @@ import express = require("express")
 import { Server } from "http";
 import logger from 'loglevel';
 import { getRoutes } from "./routes";
+var bodyParser = require("body-parser");
 
 const startServer = (): Promise<Server> => {
 
     const app: Application = express();
     const port = 8080; // default port to listen
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
     app.use('/api', getRoutes())  
 
     // add the generic error handler just in case errors are missed by middleware

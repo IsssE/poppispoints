@@ -6,11 +6,11 @@ export const inserResult = async (result: IDbResultModel): Promise<number> => {
     // siims okay
     if (!result.id) {
         const val = await db<IDbResultModel>(tables.RESULTS).insert(result, 'id')
-        if (val) {
+        if (val && val[0]) {
             return val[0]
         }
     }
-    throw "error in inserting player data";
+    throw new Error("error in inserting player data");
 }
 
 export const getAllScores = async (): Promise<IDbResultModel[]> => {

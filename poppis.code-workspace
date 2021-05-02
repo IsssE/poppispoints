@@ -8,5 +8,18 @@
 		"files.exclude": {
 			"**/node_modules": true
 		}
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"type": "node",
+				"request": "attach",
+				"name": "Node: Nodemon",
+				"port": 9229,
+				"restart": true,
+				"protocol": "inspector"
+			}
+		]
 	}
 }

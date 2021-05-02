@@ -9,7 +9,6 @@ export enum tables {
     RESULTS = 'results',
     PLAYERS_RESULTS = 'players_results',
     VARIANTS = 'variants'
-
 }
 
 export default knexCon;

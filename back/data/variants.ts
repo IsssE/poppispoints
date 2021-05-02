@@ -6,10 +6,10 @@ interface IPlayer {
     username: string;
     result: readonly IResult[];
 }*/
-let allVariants: IDbVariantModel[] = null;
+let allVariants: IDbVariantModel[]= [];
 export const getAllVariants = async (): Promise<IDbVariantModel[]> => {
     
-    if(!allVariants) {
+    if(!allVariants || allVariants.length <= 0 ) {
         await db<IDbVariantModel>(tables.VARIANTS).then(x => {
             allVariants = x; 
         })

@@ -9,7 +9,7 @@ export interface IDbResultModel {
     time: Date;
     score: number;
     proof: string;
-    variant_id?: number;
+    variant_id: number;
 }
 
 export interface IDbPlayersResultsModel {

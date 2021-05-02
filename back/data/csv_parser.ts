@@ -59,7 +59,7 @@ export class DataParser {
                             proof: data[2],
                             variant: data[3],
                             league: data[4],
-                            score: null,
+                            score: 0,
                         }
                         if (data[6]) {
                             val.players = {
