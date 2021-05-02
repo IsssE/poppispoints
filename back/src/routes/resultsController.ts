@@ -1,7 +1,7 @@
 // This seems like its not really the express way of doing it.
 // But hey! It works. Will see what happens.
 // it's always possible to refactor ":D"
-import { IPlayerDbModel, IResultDbModel } from "../../data/db.interfaces";
+import { IDbPlayerModel, IDbResultModel } from "../../data/db.interfaces";
 import express = require("express");
 import { DataParser, IKVData, IData, IPlayers } from "../../data/csv_parser";
 import * as PlayerDb from "../../data/player";
@@ -41,6 +41,7 @@ const setNewScore = async (req: express.Request, res: express.Response) => {
 
     Promise.all(playerIds).then(ids => {
         PlayerDb.linkPlayersResult(ids, scoreId);
+        res.status(200).send();
     })
 
 
@@ -49,7 +50,7 @@ const setNewScore = async (req: express.Request, res: express.Response) => {
     // seemd like nice tutorial. Prolly need to do some refactoring
 }
 
-const convertScoreModel = async (data: IData): Promise<IResultDbModel> => {
+const convertScoreModel = async (data: IData): Promise<IDbResultModel> => {
     const variant = await VariantDb.getVariant(data.variant);
     return {
         location: data.representation,
@@ -60,12 +61,12 @@ const convertScoreModel = async (data: IData): Promise<IResultDbModel> => {
     }
 }
 
-const handlePlayers = (players: IPlayers): IPlayerDbModel[] => {
+const handlePlayers = (players: IPlayers): IDbPlayerModel[] => {
     if (!players) {
         throw "Saving score with no player!"
     }
 
-    const result: IPlayerDbModel[] = [];
+    const result: IDbPlayerModel[] = [];
     // at the moment this is redundant, as this would work no mather what the type
     // leave as is, might need group spesific funtionality
     result.push({ username: players.p1 })
@@ -91,9 +92,7 @@ const getPlayerScore = async (variant: string = null, player: string = null) => 
 }
 
 const getScores = async (req: express.Request, res: express.Response) => {
-
-
-    res.status(200).send(await VariantDb.getAllVariants());
+    res.status(200).send(await ResultDb.getAllScores());
 }
 
 export { getScoreRoutes }

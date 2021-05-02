@@ -1,9 +1,9 @@
-export interface IPlayerDbModel {
+export interface IDbPlayerModel {
     id?: number;
     username: string;
 }
 
-export interface IResultDbModel {
+export interface IDbResultModel {
     id?: number;
     location: string;
     time: Date;
@@ -12,12 +12,12 @@ export interface IResultDbModel {
     variant_id?: number;
 }
 
-export interface IPlayersResultsDbModel {
+export interface IDbPlayersResultsModel {
     player_id: number;
     result_id: number;
 }
 
-export interface IVariantDbModel {
+export interface IDbVariantModel {
     id?: number;
     name: string;
     league: "M" | "W" | "A";
