@@ -1,5 +1,5 @@
 import db, { tables } from "./db"; // importing the db config
-import { IDbPlayerModel, IDbPlayersResultsModel, IDbResultModel } from "./db.interfaces"
+import { IDbPlayerModel, IDbPlayersResultsModel } from "./db.interfaces"
 /* 
 interface IPlayer {
     id: number,
@@ -26,14 +26,25 @@ export const linkPlayersResult = async (players: number[], result: number) => {
     const values = players.map<IDbPlayersResultsModel>(x => {
         return { player_id: x, result_id: result }
     })
-
-    db<IDbPlayersResultsModel>(tables.PLAYERS_RESULTS).insert(values)
+    
+    db<IDbPlayersResultsModel>(tables.PLAYERS_RESULTS).insert(values).
+    then((x) => {
+        console.debug("Values inserted correctly", values)
+    }).catch(e => {
+        throw new Error(e)
+    })
 }
 
-export const getPlayerScores = async (playerId: number): Promise<IDbResultModel[]> => {
-    const allPlayerScores = await db<IDbResultModel>(tables.RESULTS)
-        .whereIn('id', db<IDbPlayersResultsModel>(tables.PLAYERS_RESULTS)
-            .select('result_id').where('player_id', playerId))
+// TODO: check the type whenever this works
+// Now just womits all data, might wanna clean the select parameters
+export const getPlayerScores = async (username: string): Promise<any[]> => {
+    return db.select(/*`${tables.PLAYERS}.*`,*/`${tables.RESULTS}.*` )
+    .from(tables.RESULTS)
+    .leftJoin(tables.PLAYERS_RESULTS, `${tables.PLAYERS_RESULTS}.player_id`,`${tables.PLAYERS}.id`)
+    .leftJoin(tables.PLAYERS, `${tables.PLAYERS_RESULTS}.result_id`, `${tables.RESULTS}.id`)
+    .where(`${tables.PLAYERS}.username`, username)
+    .then(results => {
+        return results;
+    })
 
-    return allPlayerScores;
 }

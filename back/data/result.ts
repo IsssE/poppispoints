@@ -13,11 +13,23 @@ export const inserResult = async (result: IDbResultModel): Promise<number> => {
     throw new Error("error in inserting player data");
 }
 
+
+// TODO: Link players who done the score
 export const getAllScores = async (): Promise<IDbResultModel[]> => {
     return await db<IDbResultModel>(tables.RESULTS).select('*');
 }
 
+// TODO: Link players who done the score
 export const getAllVariantScores = async (variant: number): Promise<IDbResultModel[]> => {
     const result = await db<IDbResultModel>(tables.RESULTS).where('variant_id', variant).select('*')
+
+    /*
+
+        const result = await db<IDbResultModel>(tables.RESULTS)
+        .whereIn('id', db<IDbPlayersResultsModel>(tables.PLAYERS_RESULTS)
+            .select('result_id').where('player_id', playerId))
+
+
+    */
     return result;
 }

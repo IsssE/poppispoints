@@ -33,7 +33,7 @@ const getExcelData = async (req: express.Request, res: express.Response<IKVData>
     }
 }
 
-const setNewScore = async (req: express.Request, res: express.Response) => {
+const setNewScore = async (req: express.Request<any, any, IData, any>, res: express.Response) => {
     const newScore: IData = req.body;
 
     try {
@@ -104,7 +104,6 @@ const handlePlayers = (players: IPlayers): IDbPlayerModel[] => {
 }
 */
 const getScores = async (req: express.Request, res: express.Response) => {
-    console.debug("ARE WE HERE")
     try {
         res.status(200).send(await ResultDb.getAllScores());
     } catch (e) {
