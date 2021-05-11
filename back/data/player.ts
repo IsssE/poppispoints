@@ -38,13 +38,9 @@ export const linkPlayersResult = async (players: number[], result: number) => {
 // TODO: check the type whenever this works
 // Now just womits all data, might wanna clean the select parameters
 export const getPlayerScores = async (username: string): Promise<any[]> => {
-    return db.select(/*`${tables.PLAYERS}.*`,*/`${tables.RESULTS}.*` )
-    .from(tables.RESULTS)
+    return await db.select(`${tables.PLAYERS}.*`, `${tables.RESULTS}.*`)
+    .from(tables.PLAYERS)
     .leftJoin(tables.PLAYERS_RESULTS, `${tables.PLAYERS_RESULTS}.player_id`,`${tables.PLAYERS}.id`)
-    .leftJoin(tables.PLAYERS, `${tables.PLAYERS_RESULTS}.result_id`, `${tables.RESULTS}.id`)
+    .leftJoin(tables.RESULTS, `${tables.PLAYERS_RESULTS}.result_id`, `${tables.RESULTS}.id`)
     .where(`${tables.PLAYERS}.username`, username)
-    .then(results => {
-        return results;
-    })
-
 }
