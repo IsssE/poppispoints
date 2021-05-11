@@ -4,7 +4,7 @@ export interface IPlayerResults {
     time: Date;
     score: number;
     proof: string;
-    variant: number | IVariant;
+    variant: IVariant;
 }
 
 interface IVariant {
