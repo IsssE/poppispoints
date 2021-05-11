@@ -19,7 +19,10 @@ const getPlayerScores = async (req: express.Request<any, any, any, {username: st
         if(!username) {
             throw new Error("Parameter 'username' missing")
         }
-        res.status(200).send(await PlayerDb.getPlayerScores(username));
+        const scores = await PlayerDb.getPlayerScores(username)
+        
+
+        res.status(200).send(scores);
     } catch (e) {
         res.status(500).send(e.message);
     }
