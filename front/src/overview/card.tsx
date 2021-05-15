@@ -1,16 +1,20 @@
 
 import { Card } from "evergreen-ui";
-import { IPlayerResults } from "../../../back/data/model.interfaces";
+import React from "react";
+import { IPlayerResults, IVariantInfo } from "../../../back/data/model.interfaces";
 import { VariantPlayerScoreList } from "./list";
+import { VariantCityScores } from "./score";
 
 interface ICardProps {
-    scores: IPlayerResults[]
+    variantName: string;
 }
 
-const SummaryCard = (props: ICardProps) => {
 
-    return <Card>
+export const SummaryCard = (props: ICardProps) => {
+
+    return  <Card>
+        <h2 style= {{textAlign: "center"}}>{props.variantName}</h2>
         <VariantPlayerScoreList/>
-        
+        <VariantCityScores/>
     </Card>
 }
