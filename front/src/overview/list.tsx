@@ -27,7 +27,7 @@ export const VariantPlayerScoreList = () => {
                 </Table.Head>
                 <Table.Body>
                     {mockData.map((x, index) => {
-                        <Table.Row key={index}>
+                        return <Table.Row key={index}>
                             <Table.TextCell>{x.name}</Table.TextCell>
                             <Table.TextCell>{x.score}</Table.TextCell>
                         </Table.Row>
