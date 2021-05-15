@@ -12,3 +12,7 @@ interface IVariant {
     league: "M" | "W" | "A";
     description: string;
 }
+
+export interface IVariantInfo {
+    name: string
+}

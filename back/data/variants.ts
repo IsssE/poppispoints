@@ -21,6 +21,6 @@ export const getAllVariants = async (): Promise<IDbVariantModel[]> => {
 export const getVariant = async (name: string): Promise<IDbVariantModel | undefined> => {
     const all = await getAllVariants();
     return all.find(x => {
-        return x.name === name
+        return x.name === name;
     })
 }
