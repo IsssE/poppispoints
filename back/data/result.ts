@@ -1,5 +1,6 @@
 import db, { tables } from "./db"; // importing the db config
 import { IDbResultModel } from "./db.interfaces"
+import { IPlayerResults } from "./model.interfaces";
 
 export const inserResult = async (result: IDbResultModel): Promise<number> => {
     // do this https://alexzywiak.github.io/knex-bag-o-functions-modeling-many-to-many-relationships-in-node-2/index.html
@@ -20,16 +21,65 @@ export const getAllScores = async (): Promise<IDbResultModel[]> => {
 }
 
 // TODO: Link players who done the score
-export const getAllVariantScores = async (variant: number): Promise<IDbResultModel[]> => {
-    const result = await db<IDbResultModel>(tables.RESULTS).where('variant_id', variant).select('*')
+export const getVariantScores = async (variant: number): Promise<Record<string, IPlayerResults[]>> => {
+    let variantData: Record<string, IPlayerResults[]> = {};
+    const result = await db.select(
+        `${tables.PLAYERS}.*`,
+        `${tables.RESULTS}.*`,
+        `${tables.VARIANTS}.*`
+    )
+        .from(tables.PLAYERS)
+        .leftJoin(tables.PLAYERS_RESULTS, `${tables.PLAYERS_RESULTS}.player_id`, `${tables.PLAYERS}.id`)
+        .leftJoin(tables.RESULTS, `${tables.PLAYERS_RESULTS}.result_id`, `${tables.RESULTS}.id`)
+        .leftJoin(tables.VARIANTS, `${tables.RESULTS}.variant_id`, `${tables.VARIANTS}.id`)
+        .where(`${tables.VARIANTS}.id`, variant)
+    result.map(x => {
 
-    /*
+        const playerData: IPlayerResults = {
+            player: x.username,
+            location: x.location,
+            time: x.time,
+            score: x.score,
+            proof: x.proof
+        }
+        const varName: string = x.name;
+        if (!variantData[varName]) {
+            variantData[varName] = []
+        }
+        variantData[varName].push(playerData);
 
-        const result = await db<IDbResultModel>(tables.RESULTS)
-        .whereIn('id', db<IDbPlayersResultsModel>(tables.PLAYERS_RESULTS)
-            .select('result_id').where('player_id', playerId))
-
-
-    */
-    return result;
+    })
+    return variantData;
 }
+
+export const getAllVariantScores = async (): Promise<Record<string, IPlayerResults[]>> => {
+    let variantData: Record<string, IPlayerResults[]> = {};
+    const result = await db.select(
+        `${tables.PLAYERS}.*`,
+        `${tables.RESULTS}.*`,
+        `${tables.VARIANTS}.*`
+    )
+        .from(tables.PLAYERS)
+        .leftJoin(tables.PLAYERS_RESULTS, `${tables.PLAYERS_RESULTS}.player_id`, `${tables.PLAYERS}.id`)
+        .leftJoin(tables.RESULTS, `${tables.PLAYERS_RESULTS}.result_id`, `${tables.RESULTS}.id`)
+        .leftJoin(tables.VARIANTS, `${tables.RESULTS}.variant_id`, `${tables.VARIANTS}.id`)
+    result.map(x => {
+        const playerData: IPlayerResults = {
+            player: x.username,
+            location: x.location,
+            time: x.time,
+            score: x.score,
+            proof: x.proof
+        }
+        const varName: string = x.name;
+        if (!variantData[varName]) {
+            variantData[varName] = []
+        }
+        variantData[varName].push(playerData);
+
+    })
+    return variantData;
+}
+
+// TODO: rather have function that return the querry.
+// Now need to write the same thing multiple times.

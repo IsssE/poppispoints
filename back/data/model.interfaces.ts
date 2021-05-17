@@ -1,9 +1,11 @@
 export interface IPlayerResults {
-    //resultId?: number;
+    player: string;
     location: string;
     time: Date;
     score: number;
     proof: string;
+}
+export interface IPlayerResultsWithVariant extends IPlayerResults {
     variant: IVariant;
 }
 

@@ -1,6 +1,6 @@
 import db, { tables } from "./db"; // importing the db config
 import { IDbPlayerModel, IDbPlayersResultsModel } from "./db.interfaces"
-import { IPlayerResults } from "./model.interfaces";
+import { IPlayerResultsWithVariant } from "./model.interfaces";
 /* 
 interface IPlayer {
     id: number,
@@ -36,8 +36,8 @@ export const linkPlayersResult = async (players: number[], result: number) => {
         })
 }
 
-// TODO: check id possible to get join types
-export const getPlayerScores = async (username: string): Promise<IPlayerResults[]> => {
+// TODO: check if it is possible to get join types
+export const getPlayerScores = async (username: string): Promise<IPlayerResultsWithVariant[]> => {
     const result = await db.select(
         `${tables.PLAYERS}.*`, 
         `${tables.RESULTS}.*`, 
@@ -50,6 +50,7 @@ export const getPlayerScores = async (username: string): Promise<IPlayerResults[
         .where(`${tables.PLAYERS}.username`, username)
     return result.map(x => {
         return {
+            player: username,
             location: x.location,
             time: x.time,
             score: x.score,

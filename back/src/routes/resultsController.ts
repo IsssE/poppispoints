@@ -8,6 +8,7 @@ import * as PlayerDb from "../../data/player";
 import * as ResultDb from "../../data/result";
 import * as VariantDb from "../../data/variants";
 import { notEmpty } from "../../src/utils";
+import { IPlayerResults } from "../../data/model.interfaces";
 
 const getScoreRoutes = (): express.Router => {
 
@@ -15,8 +16,8 @@ const getScoreRoutes = (): express.Router => {
 
 
     router.get('/excel', getExcelData)
+    router.get('/', getVariantScores)
     router.post('/newScore', setNewScore)
-    router.get('/', getScores)
 
     return router
 
@@ -58,6 +59,24 @@ const setNewScore = async (req: express.Request<any, any, IData, any>, res: expr
     // TODO: continue with saving the data to db.
     // https://auth0.com/blog/node-js-and-typescript-tutorial-build-a-crud-api/
     // seemd like nice tutorial. Prolly need to do some refactoring
+}
+
+const getVariantScores = async  (req: express.Request<any, any, any, {variant?: number} >, res: express.Response) => {
+    try {
+        const variant = req.query.variant;
+        let scores: Promise<Record<string, IPlayerResults[]>>;
+        console.debug("asdsadsa", variant)
+        if(!variant) {
+            scores = ResultDb.getAllVariantScores();
+        } else {
+            scores = ResultDb.getVariantScores(variant)
+        }
+        
+
+        res.status(200).send(await scores);
+    } catch (e) {
+        res.status(500).send(e.message);
+    }
 }
 
 const convertScoreModel = async (data: IData): Promise<IDbResultModel> => {
@@ -102,7 +121,6 @@ const handlePlayers = (players: IPlayers): IDbPlayerModel[] => {
 /*const getPlayerScore = async (variant: string = null, player: string = null) => {
 
 }
-*/
 const getScores = async (req: express.Request, res: express.Response) => {
     try {
         res.status(200).send(await ResultDb.getAllScores());
@@ -110,5 +128,6 @@ const getScores = async (req: express.Request, res: express.Response) => {
         res.status(500).send(e.message);
     }
 }
+*/
 
 export { getScoreRoutes }
