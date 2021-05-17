@@ -14,7 +14,7 @@ export const VariantPlayerScoreList = (props: IVariantPlayerScoreList) => {
                 <Header as='h4' image>
                     <Image src={getLocationPicture(player.location)} rounded size='mini' />
                     <Header.Content>
-                        {player.name}
+                        {player.player}
                     </Header.Content>
                 </Header>
             </Table.Cell>
@@ -31,7 +31,7 @@ export const VariantPlayerScoreList = (props: IVariantPlayerScoreList) => {
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {props.scores.map(x => {
+                {props.scores.slice(0, 8).map(x => {
                     return getPlayerRow(x);
                 })}
             </Table.Body>

@@ -1,5 +1,5 @@
 export interface IPlayerScoreData {
-    name: string,
+    player: string,
     score: number,
     location: string
 }

@@ -7,40 +7,25 @@ import { VariantCityScores } from "./score";
 
 interface ICardProps {
     variantName: string;
+    playerScore?: IPlayerScoreData[];
 }
-const mockData: IPlayerScoreData[] = [
-    {
-        name: "jallux",
-        score: 222,
-        location: "Tampere"
-    },
-    {
-        name: "Eronen",
-        score: 100,
-        location: "Oulu"
-    },
-    {
-        name: "Qizma",
-        score: 99,
-        location: "Lappeenranta"
-    },
-    {
-        name: "IssE",
-        score: 20,
-        location: "Helsinki"
-    },
-
-]
 
 export const SummaryCard = (props: ICardProps) => {
 
     return <Card>
+        {(props.playerScore && props.playerScore.length > 0) ?
 
-        <Card.Content>
-            <h2 style={{ textAlign: "center" }}>{props.variantName}</h2>
-            <VariantPlayerScoreList scores={mockData} />
-            <VariantCityScores variantPlayerData={mockData} />
 
-        </Card.Content>
+            <Card.Content>
+                <h2 style={{ textAlign: "center" }}>{props.variantName}</h2>
+                <VariantPlayerScoreList scores={props.playerScore} />
+                <VariantCityScores variantPlayerData={props.playerScore} />
+
+            </Card.Content>
+            :
+            <Card.Content>
+                <h2 style={{ textAlign: "center" }}>{props.variantName}</h2>
+                <span>No games played or error in data fetch :S</span>
+            </Card.Content>}
     </Card>
 }
