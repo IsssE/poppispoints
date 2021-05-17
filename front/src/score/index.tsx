@@ -1,13 +1,13 @@
 import React, { ReactElement } from "react";
 import { Loader } from "semantic-ui-react";
-import { IPlayerResults } from "../../../back/data/model.interfaces";
+import { IPlayerResultsWithVariant } from "../../../back/data/model.interfaces";
 
 interface IListProps {
 
 }
 
 const ScoreList: React.FC<IListProps> = (): ReactElement => {
-    const [scoreList, setScoreList] = React.useState<IPlayerResults[] | null>(null);
+    const [scoreList, setScoreList] = React.useState<IPlayerResultsWithVariant[] | null>(null);
 
     React.useEffect(() => {
         fetch("/api/player/scores?username=Tommi Linnamaa").then(x => x.json()).then(data => {

@@ -1,54 +1,118 @@
 import csv from 'csv-parse';
-import * as fs from'fs';
+import express from 'express';
+import * as fs from 'fs';
 import moment from 'moment';
 import { Moment } from 'moment';
+import { IGameData } from './model.interfaces';
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-export type IPlayers = ISingle | IDouble | ITeam;
 
-export interface IKVData {
-    headers: string[];
-    data: IData[];
-}
-export interface IData {
-    time: Date;
-    representation: string;
-    proof: string;
-    variant: string;
-    players?: IPlayers;
-    league: string;
-    score: number;
-}
+export const sendKVData = async (req: express.Request, res: express.Response) => {
 
-interface ISingle {
-    p1: string;
-}
+    try {
+        const result = await parese2021KVData();
 
-interface IDouble {
-    p1: string;
-    p2: string;
-}
+        result.data.forEach(x => {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", 'http://localhost:8080/api/scores/newScore', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(x));
+        })
+        console.debug("sent this many requests by parser: ", result.data.length)
 
-interface ITeam {
-    p1: string;
-    p2: string;
-    p3: string;
-    p4: string;
-}
-
-export class DataParser {
-    public data: Promise<IKVData>;
-    constructor() {
-        this.data = this.pareseDataKV();
+        res.status(200).send(result);
+    }
+    catch (e) {
+        res.status(500).send(e.message);
     }
 
-    private pareseDataKV = (): Promise<IKVData> => {
-        const resultData: IData[] = [];
-        let headers: string[] = []
-        // No interest in looking for document to handle header
-        // just skip first
-        let first = true;
-        return new Promise((resolve, reject) => {
-            fs.createReadStream('data/kv_2020_tulokset.csv')
+}
+
+async function parese2021KVData(): Promise<{ data: IGameData[], headers: string[] }> {
+    const resultData: IGameData[] = [];
+    let headers: string[] = []
+    // No interest in looking for document to handle header
+    // just skip first
+    let first = true;
+    return new Promise((resolve, reject) => {
+        fs.createReadStream('data/kv_2021_tulokset.csv')
+            .pipe(csv())
+            .on('data', (dataString: string[]) => {
+                const data = dataString[0].split(";")
+                if (data[0] && !first) {
+                    const date: Moment = moment(data[1], "dd/mm/yyyy hh:mm:ss")
+                    let val: IGameData = {
+                        time: date.toDate(),
+                        representation: data[2],
+                        proof: data[3],
+                        variant: handleVariant(data[4]),
+                        league: handleLeague(data[5]),
+                        players: { p1: data[6] },
+                        score: parseInt(data[7]),
+                    }
+                    resultData.push(val);
+                } else {
+                    if (data[0]) {
+                        const headerData: string[] = [...data.slice(0, 5), "result"]
+
+                        headers = headerData;
+                    }
+                }
+                first = false;
+            }).on('end', () => {
+                resolve({ data: resultData, headers: headers })
+            }).on('error', (err: Error) => {
+                reject(err.message);
+            });
+    });
+}
+const handleLeague = (league: string): "M" | "W" | "A" => {
+    if (!league) {
+        return "A"
+    }
+
+    switch (league.toLocaleLowerCase()) {
+        case "miesten":
+            return "M";
+        case "naisten":
+            return "M";
+        default:
+            return "A";
+
+    }
+}
+const handleVariant = (variant: string): string => {
+    if (!variant) {
+        return "Henkkari"
+    }
+
+    switch (variant.toLocaleLowerCase()) {
+        case "5-ottelu":
+            return "Viisiottelu";
+        case "7-ottelu":
+            return "Seitsenottelu";
+        default:
+            return variant;
+
+    }
+}
+
+/**
+ *
+ export class DataParser {
+     public data: Promise<IKVData>;
+     constructor() {
+         this.data = this.pareseDataKV();
+        }
+
+        private pareseDataKV = (): Promise<IKVData> => {
+            const resultData: IData[] = [];
+            let headers: string[] = []
+            // No interest in looking for document to handle header
+            // just skip first
+            let first = true;
+            return new Promise((resolve, reject) => {
+                fs.createReadStream('data/kv_2020_tulokset.csv')
                 .pipe(csv())
                 .on('data', (data: string[]) => {
                     if (data[0] && !first) {
@@ -86,7 +150,7 @@ export class DataParser {
                     } else {
                         if(data[0]) {
                             const headerData: string[] = [...data.slice(0,5), "result"]
-                            
+
                             headers = headerData;
                         }
                     }
@@ -100,4 +164,5 @@ export class DataParser {
         });
     }
 }
+*/
 

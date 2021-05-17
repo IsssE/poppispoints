@@ -3,19 +3,16 @@
 // it's always possible to refactor ":D"
 import { IDbPlayerModel, IDbResultModel } from "../../data/db.interfaces";
 import express = require("express");
-import { DataParser, IKVData, IData, IPlayers } from "../../data/csv_parser";
 import * as PlayerDb from "../../data/player";
 import * as ResultDb from "../../data/result";
 import * as VariantDb from "../../data/variants";
 import { notEmpty } from "../../src/utils";
-import { IPlayerResults } from "../../data/model.interfaces";
+import { IGameData, IPlayerResults, IPlayers } from "../../data/model.interfaces";
 
 const getScoreRoutes = (): express.Router => {
 
     const router = express.Router()
 
-
-    router.get('/excel', getExcelData)
     router.get('/', getVariantScores)
     router.post('/newScore', setNewScore)
 
@@ -23,19 +20,8 @@ const getScoreRoutes = (): express.Router => {
 
 }
 
-const getExcelData = async (req: express.Request, res: express.Response<IKVData>) => {
-
-    if (req.method === "GET") {
-        const parser = new DataParser();
-        res.status(200).send(await parser.data)
-    }
-    else {
-
-    }
-}
-
-const setNewScore = async (req: express.Request<any, any, IData, any>, res: express.Response) => {
-    const newScore: IData = req.body;
+const setNewScore = async (req: express.Request<any, any, IGameData, any>, res: express.Response) => {
+    const newScore: IGameData = req.body;
 
     try {
         if (!newScore.players) {
@@ -65,7 +51,6 @@ const getVariantScores = async  (req: express.Request<any, any, any, {variant?: 
     try {
         const variant = req.query.variant;
         let scores: Promise<Record<string, IPlayerResults[]>>;
-        console.debug("asdsadsa", variant)
         if(!variant) {
             scores = ResultDb.getAllVariantScores();
         } else {
@@ -79,7 +64,7 @@ const getVariantScores = async  (req: express.Request<any, any, any, {variant?: 
     }
 }
 
-const convertScoreModel = async (data: IData): Promise<IDbResultModel> => {
+const convertScoreModel = async (data: IGameData): Promise<IDbResultModel> => {
     const variant = await VariantDb.getVariant(data.variant);
     if(!variant || !variant.id) {
         throw new Error(`Could not find variant for ${data.variant}`) 

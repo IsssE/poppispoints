@@ -9,7 +9,7 @@ export async function seed(knex: Knex): Promise<void> {
         { name: "Henkkari",  description: "TBD", league: "A" },
         { name: "Viisiottelu",  description: "TBD", league: "A" },
         { name: "Seitsenottelu",  description: "TBD", league: "A" },
-        { name: "Joukkuekenttä-yksin",  description: "TBD", league: "A" },
+        { name: "Joukkuekenttä yksin",  description: "TBD", league: "A" },
         { name: "Pystyhydra",  description: "TBD", league: "A" },
         { name: "Smuulin sviippitreeni",  description: "TBD", league: "A" },
         { name: "Paripeli",  description: "TBD", league: "A" },
