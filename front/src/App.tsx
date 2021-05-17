@@ -3,6 +3,7 @@ import './App.css';
 import { NavigationBar } from './navigation/navigationBar';
 import { Overview } from './overview';
 import ScoreList from "./score"
+import 'semantic-ui-css/semantic.min.css'
 
 function App() {
   return (

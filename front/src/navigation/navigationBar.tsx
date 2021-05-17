@@ -1,5 +1,3 @@
-import { CSSProperties } from "react";
-import { Pane } from "evergreen-ui"
 
 export const NavigationBar = () => {
     return <div

@@ -1,6 +1,6 @@
 
-import { Spinner } from "evergreen-ui";
 import React from "react";
+import { Card, Loader } from "semantic-ui-react";
 import { IVariantInfo } from "../../../back/data/model.interfaces";
 import { SummaryCard } from "./card";
 
@@ -14,13 +14,14 @@ export const Overview = () => {
     }, [])
 
     return variants ?
-        <>
-            {variants.map(x => {
+        <Card.Group>
+            {variants.map((x, index) => {
                 return <SummaryCard
+                    key = {index}
                     variantName={x.name}
                 />
             })}
-        </>
+        </Card.Group>
         :
-        <Spinner />
+        <Loader active inline='centered' />
 }
