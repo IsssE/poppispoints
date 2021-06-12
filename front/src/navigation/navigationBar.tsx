@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react'
+import React, { CSSProperties, SyntheticEvent } from 'react'
 import { Button, Icon, Menu, MenuItemProps } from 'semantic-ui-react'
 
 interface INavigationBarProps {
@@ -15,10 +15,7 @@ export const NavigationBar = (prop: INavigationBarProps) => {
         if (active && active.name) {
             prop.onChangeActive(active.name)
         }
-        // ajatus ei kulje. 
-        // https://react.semantic-ui.com/collections/menu/#types-content-prop
-        // mistä tuo lista menu itemejä pitäs tulla. 
-        // joku state setti?
+
     }
 
     const handleAddScore = () => {
@@ -34,7 +31,7 @@ export const NavigationBar = (prop: INavigationBarProps) => {
     items.forEach(x => {
         x.active = prop.active === x.name
     })
-// G2G, add blue background for add button. Create add functionality
+    // G2G, add blue background for add button. Create add functionality
     return <Menu icon="labeled">
         {items.map(item => {
             return <Menu.Item
@@ -47,16 +44,24 @@ export const NavigationBar = (prop: INavigationBarProps) => {
             </Menu.Item>
         })}
         <Menu.Menu position="left">
-            <Menu.Item
-                name={"add"}
-                onClick={handleAddScore}
-            >
-                <Icon name="add"></Icon>
-                Lisää
-            </Menu.Item>
 
+            <div style={{display: "flex", alignItems:"center"}}>
+                <div style={buttonStyle}>
+                    <Button animated='vertical' primary onClick={handleAddScore}>
+                        <Button.Content visible>
+                            <Icon name={'add'}></Icon>
+                        </Button.Content>
+                        <Button.Content hidden>Lisää</Button.Content>
+                    </Button>
+                </div>
+            </div>
         </Menu.Menu>
 
 
     </Menu>
+}
+
+const buttonStyle: CSSProperties = {
+    padding: "5px",
+    paddingLeft: "15px"
 }
