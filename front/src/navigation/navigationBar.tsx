@@ -1,9 +1,12 @@
 import React, { CSSProperties, SyntheticEvent } from 'react'
 import { Button, Icon, Menu, MenuItemProps } from 'semantic-ui-react'
+import { IVariantInfo } from '../../../back/data/model.interfaces'
+import { AddScoreModal } from './addScoreModal'
 
 interface INavigationBarProps {
     active: string;
-    onChangeActive: React.Dispatch<React.SetStateAction<string>>
+    onChangeActive: React.Dispatch<React.SetStateAction<string>>;
+    variants: IVariantInfo[]
 }
 
 export const NavigationBar = (prop: INavigationBarProps) => {
@@ -15,26 +18,29 @@ export const NavigationBar = (prop: INavigationBarProps) => {
         if (active && active.name) {
             prop.onChangeActive(active.name)
         }
-
-    }
-
-    const handleAddScore = () => {
-        alert("abua")
     }
 
     const items: MenuItemProps[] = [
-        { key: 'overview', name: 'Yhteenveto', onClick: handleItemClick, iconName: "winner" },
-        { key: 'cityScore', name: 'KV Pisteet', onClick: handleItemClick, iconName: "winner" },
-        { key: 'variant', name: 'Laji', onClick: handleItemClick, iconName: "winner" },
+        { key: 'overview', name: 'Yhteenveto', iconName: "winner" },
+        { key: 'cityScore', name: 'KV Pisteet', iconName: "winner" },
+        { key: 'variant', name: 'Laji', iconName: "winner" },
     ]
 
     items.forEach(x => {
         x.active = prop.active === x.name
     })
-    // G2G, add blue background for add button. Create add functionality
+
+    const modalButton = <Button animated='vertical' primary >
+        <Button.Content visible>
+            <Icon name={'add'}></Icon>
+        </Button.Content>
+        <Button.Content hidden>Lisää</Button.Content>
+    </Button>
+
     return <Menu icon="labeled">
-        {items.map(item => {
+        {items.map((item, index) => {
             return <Menu.Item
+                key={index}
                 name={item.name}
                 active={item.name === prop.active}
                 onClick={handleItemClick}
@@ -44,15 +50,13 @@ export const NavigationBar = (prop: INavigationBarProps) => {
             </Menu.Item>
         })}
         <Menu.Menu position="left">
-
-            <div style={{display: "flex", alignItems:"center"}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
                 <div style={buttonStyle}>
-                    <Button animated='vertical' primary onClick={handleAddScore}>
-                        <Button.Content visible>
-                            <Icon name={'add'}></Icon>
-                        </Button.Content>
-                        <Button.Content hidden>Lisää</Button.Content>
-                    </Button>
+                    {
+                        <AddScoreModal 
+                        openButton={modalButton}
+                        variants={prop.variants} />
+                    }
                 </div>
             </div>
         </Menu.Menu>

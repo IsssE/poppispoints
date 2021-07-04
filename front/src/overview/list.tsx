@@ -8,8 +8,8 @@ interface IVariantPlayerScoreList {
 }
 
 export const VariantPlayerScoreList = (props: IVariantPlayerScoreList) => {
-    const getPlayerRow = (player: IPlayerScoreData): JSX.Element => {
-        return <Table.Row>
+    const getPlayerRow = (player: IPlayerScoreData, index: number): JSX.Element => {
+        return <Table.Row key = {index}>
             <Table.Cell>
                 <Header as='h4' image>
                     <Image src={getLocationPicture(player.location)} rounded size='mini' />
@@ -31,8 +31,8 @@ export const VariantPlayerScoreList = (props: IVariantPlayerScoreList) => {
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {props.scores.slice(0, 8).map(x => {
-                    return getPlayerRow(x);
+                {props.scores.slice(0, 8).map((x, index) => {
+                    return getPlayerRow(x, index);
                 })}
             </Table.Body>
         </Table>
