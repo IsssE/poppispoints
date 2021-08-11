@@ -3,7 +3,7 @@ import express from 'express';
 import * as fs from 'fs';
 import moment from 'moment';
 import { Moment } from 'moment';
-import { IGameData } from './model.interfaces';
+import { IGameData } from './interface.model';
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 

@@ -1,6 +1,6 @@
 import React, { CSSProperties, SyntheticEvent } from 'react'
 import { Button, Icon, Menu, MenuItemProps } from 'semantic-ui-react'
-import { IVariantInfo } from '../../../back/data/model.interfaces'
+import { IVariantInfo } from '../../../back/data/interface.model'
 import { AddScoreModal } from './addScoreModal'
 
 interface INavigationBarProps {

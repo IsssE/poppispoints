@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "semantic-ui-react";
-import { IPlayerResults, IVariantInfo } from "../../../back/data/model.interfaces";
+import { IPlayerResults, IVariantInfo } from "../../../back/data/interface.model";
 import { IPlayerScoreData } from "../score/interface";
 import { VariantPlayerScoreList } from "./list";
 import { VariantCityScores } from "./score";

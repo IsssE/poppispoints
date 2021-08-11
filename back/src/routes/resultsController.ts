@@ -1,13 +1,13 @@
 // This seems like its not really the express way of doing it.
 // But hey! It works. Will see what happens.
 // it's always possible to refactor ":D"
-import { IDbPlayerModel, IDbResultModel } from "../../data/db.interfaces";
+import { IDbPlayerModel, IDbResultModel } from "../../data/interface.db";
 import express = require("express");
 import * as PlayerDb from "../../data/player";
 import * as ResultDb from "../../data/result";
 import * as VariantDb from "../../data/variants";
 import { notEmpty } from "../../src/utils";
-import { IGameData, IPlayerResults, IPlayers } from "../../data/model.interfaces";
+import { IGameData, IPlayerResults, IPlayers } from "../../data/interface.model";
 
 const getScoreRoutes = (): express.Router => {
 

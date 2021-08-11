@@ -1,6 +1,6 @@
 import { getAllVariants } from "../../data/variants";
 import express from "express"
-import { IVariantInfo } from "../../data/model.interfaces";
+import { IVariantInfo } from "../../data/interface.model";
 
 export const getVariantRoutes = (): express.Router => {
 

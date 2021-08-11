@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Card, Loader } from "semantic-ui-react";
-import { IPlayerResultsWithVariant, IVariantInfo } from "../../../back/data/model.interfaces";
+import { IPlayerResultsWithVariant, IVariantInfo } from "../../../back/data/interface.model";
 import { IPlayerScoreData } from "../score/interface";
 import { SummaryCard } from "./card";
 

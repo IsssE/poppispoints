@@ -1,5 +1,5 @@
 import db, { tables } from "./db"; // importing the db config
-import { IDbVariantModel } from "./db.interfaces"
+import { IDbVariantModel } from "./interface.db"
 /* 
 interface IPlayer {
     id: number,

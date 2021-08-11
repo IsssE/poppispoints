@@ -1,6 +1,6 @@
 import React from "react"
 import { Button, CheckboxProps, DropdownProps, Form, Header, Loader, Modal, Radio } from "semantic-ui-react"
-import { IGameData, IVariantInfo } from "../../../back/data/model.interfaces";
+import { IGameData, IVariantInfo } from "../../../back/data/interface.model";
 
 interface IModalProps {
     openButton: React.ReactNode;

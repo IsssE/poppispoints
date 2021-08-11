@@ -1,5 +1,5 @@
 import React from 'react'
-import { IVariantInfo } from '../../../back/data/model.interfaces'
+import { IVariantInfo } from '../../../back/data/interface.model'
 import { NavigationBar } from '../navigation/navigationBar'
 import { Overview } from '../overview'
 

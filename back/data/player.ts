@@ -1,6 +1,6 @@
 import db, { tables } from "./db"; // importing the db config
-import { IDbPlayerModel, IDbPlayersResultsModel } from "./db.interfaces"
-import { IPlayerResultsWithVariant } from "./model.interfaces";
+import { IDbPlayerModel, IDbPlayersResultsModel } from "./interface.db"
+import { IPlayerResultsWithVariant } from "./interface.model";
 /* 
 interface IPlayer {
     id: number,

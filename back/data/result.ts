@@ -1,6 +1,6 @@
 import db, { tables } from "./db"; // importing the db config
-import { IDbResultModel } from "./db.interfaces"
-import { IPlayerResults } from "./model.interfaces";
+import { IDbResultModel } from "./interface.db"
+import { IPlayerResults } from "./interface.model";
 
 export const inserResult = async (result: IDbResultModel): Promise<number> => {
     // do this https://alexzywiak.github.io/knex-bag-o-functions-modeling-many-to-many-relationships-in-node-2/index.html

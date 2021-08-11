@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Loader } from "semantic-ui-react";
-import { IPlayerResultsWithVariant } from "../../../back/data/model.interfaces";
+import { IPlayerResultsWithVariant } from "../../../back/data/interface.model";
 
 interface IListProps {
 
