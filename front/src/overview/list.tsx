@@ -1,11 +1,13 @@
 import React from "react"
 import { Header, Loader, Table, Image } from "semantic-ui-react"
-import { getLocationPicture } from "../misc/util"
+import { getLocationPicture, orderPlayerScores as sortPlayerScores } from "../misc/util"
 import { IPlayerScoreData } from "../score/interface"
 
 interface IVariantPlayerScoreList {
     scores: IPlayerScoreData[]
+    invertOrder?: boolean;
 }
+
 
 export const VariantPlayerScoreList = (props: IVariantPlayerScoreList) => {
     const getPlayerRow = (player: IPlayerScoreData, index: number): JSX.Element => {
@@ -21,7 +23,7 @@ export const VariantPlayerScoreList = (props: IVariantPlayerScoreList) => {
             <Table.Cell>{player.score}</Table.Cell>
         </Table.Row>
     }
-
+    const ascendingOrder = props.invertOrder ? true : false;
     return props.scores ?
         <Table>
             <Table.Header>
@@ -31,7 +33,7 @@ export const VariantPlayerScoreList = (props: IVariantPlayerScoreList) => {
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {props.scores.slice(0, 8).map((x, index) => {
+                {props.scores.filter(x => x.score ? true : false).sort((a, b) => sortPlayerScores(a, b, ascendingOrder)).slice(0, 8).map((x, index) => {
                     return getPlayerRow(x, index);
                 })}
             </Table.Body>

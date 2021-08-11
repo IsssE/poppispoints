@@ -21,5 +21,6 @@ export interface IDbVariantModel {
     id?: number;
     name: string;
     league: "M" | "W" | "A";
-    description: string;    
+    description: string;
+    ascending: boolean;
 }

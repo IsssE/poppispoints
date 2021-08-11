@@ -16,7 +16,8 @@ interface IVariant {
 }
 
 export interface IVariantInfo {
-    name: string
+    name: string;
+    ascending: boolean;
 }
 
 /** 

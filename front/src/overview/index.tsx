@@ -18,7 +18,6 @@ export const Overview = (props: IOverviewProps) => {
         })
     }, [])
 
-
     return (props.variants && playerData) ?
         <Card.Group>
             {props.variants.map((x, index) => {
@@ -27,6 +26,7 @@ export const Overview = (props: IOverviewProps) => {
                     key = {index}
                     variantName={x.name}
                     playerScore={data}
+                    invertOrder={x.ascending}
                 />
             })}
         </Card.Group>

@@ -18,8 +18,8 @@ const getVariants = async  (req: express.Request, res: express.Response<IVariant
 
         const variants = await getAllVariants();
         
-        const result = variants.map(x => {
-            return {name: x.name}
+        const result: IVariantInfo[] = variants.map(x => {
+            return {name: x.name, ascending: x.ascending}
         });
         
         res.status(200).send(await result);

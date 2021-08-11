@@ -1,3 +1,4 @@
+import { IPlayerScoreData } from "../score/interface";
 
 type locations = "Tampere" | "Helsinki" | "Lappeenranta" | "Oulu"
 
@@ -22,3 +23,7 @@ export const getLocationPicture = (locName: string): string => {
     return result;
 
 }
+
+export const orderPlayerScores = (a: IPlayerScoreData, b:IPlayerScoreData, ascending: boolean) => {
+    return (a.score - b.score) *  (ascending ? 1 : -1);
+}  

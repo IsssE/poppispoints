@@ -8,17 +8,16 @@ import { VariantCityScores } from "./score";
 interface ICardProps {
     variantName: string;
     playerScore?: IPlayerScoreData[];
+    invertOrder?: boolean;
 }
 
 export const SummaryCard = (props: ICardProps) => {
 
     return <Card>
         {(props.playerScore && props.playerScore.length > 0) ?
-
-
             <Card.Content>
                 <h2 style={{ textAlign: "center" }}>{props.variantName}</h2>
-                <VariantPlayerScoreList scores={props.playerScore} />
+                <VariantPlayerScoreList scores={props.playerScore} invertOrder={props.invertOrder}/>
                 <VariantCityScores variantPlayerData={props.playerScore} />
 
             </Card.Content>
