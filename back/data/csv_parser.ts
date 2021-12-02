@@ -22,7 +22,7 @@ export const sendKVData = async (req: express.Request, res: express.Response) =>
 
         res.status(200).send(result);
     }
-    catch (e) {
+    catch (e: any) {
         res.status(500).send(e.message);
     }
 

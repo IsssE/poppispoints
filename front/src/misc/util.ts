@@ -26,4 +26,23 @@ export const getLocationPicture = (locName: string): string => {
 
 export const orderPlayerScores = (a: IPlayerScoreData, b:IPlayerScoreData, ascending: boolean) => {
     return (a.score - b.score) *  (ascending ? 1 : -1);
-}  
+}
+
+export const filterDuplicatePlayerScores = (orginal: IPlayerScoreData[], highest:boolean = true): IPlayerScoreData[] => {
+    var result: IPlayerScoreData[] = []
+    orginal.forEach(player => {
+        const found=result.find(x => x.player === player.player)
+        if(!found) {
+            result.push(player);
+        }
+        else {
+            // feels like there is a better way, but this should also work :D
+            let change = found.score > player.score
+            change = highest ? change : !change
+            if(change) {
+                found.score=player.score
+            }
+        }
+    })
+    return result;
+}
