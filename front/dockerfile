@@ -1,3 +1,6 @@
+# AAhhh.. Types are broken for dev as front uses some backend typedeclarations. Fix maybe someday
+# or just make a relase dockerfile so there is no need to think about types
+
 # Trying to get Dev env running in docker
 # Nextup: hosted minized thingy, when ever I get everything working as dev
 
