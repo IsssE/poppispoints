@@ -3,9 +3,7 @@
 
 FROM node:16
 
-WORKDIR /app
-
-ENV PATH /app/node_modules/.bin:$PATH
+WORKDIR /usr/src/app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -16,9 +14,8 @@ RUN npm install
 # If you are building your code for production
 # RUN npm ci --only=production
 
-# add app
-COPY . ./
+COPY . .
 
 EXPOSE 3000
 
-CMD [ "nodemon", "start" ]
+CMD [ "npm", "start" ]
