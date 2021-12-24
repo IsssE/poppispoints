@@ -1,5 +1,10 @@
 import React from "react"
-import { Header, Loader, Table, Image } from "semantic-ui-react"
+
+//mport { Header, Loader, Table, Image } from "react-bootstrap"
+import Table from "react-bootstrap/Table";
+import Image from "react-bootstrap/Image";
+import Spinner from "react-bootstrap/Spinner";
+
 import { getLocationPicture, orderPlayerScores as sortPlayerScores } from "../misc/util"
 import { IPlayerScoreData } from "../score/interface"
 
@@ -11,33 +16,28 @@ interface IVariantPlayerScoreList {
 
 export const VariantPlayerScoreList = (props: IVariantPlayerScoreList) => {
     const getPlayerRow = (player: IPlayerScoreData, index: number): JSX.Element => {
-        return <Table.Row key = {index}>
-            <Table.Cell>
-                <Header as='h4' image>
-                    <Image src={getLocationPicture(player.location)} rounded size='mini' />
-                    <Header.Content>
-                        {player.player}
-                    </Header.Content>
-                </Header>
-            </Table.Cell>
-            <Table.Cell>{player.score}</Table.Cell>
-        </Table.Row>
+        return <tr key={index}>
+            <th>
+                <Image src={getLocationPicture(player.location)} rounded />
+                {player.player}
+
+            </th>
+            <th>{player.score}</th>
+        </tr>
     }
     const ascendingOrder = props.invertOrder ? true : false;
     return props.scores ?
         <Table>
-            <Table.Header>
-                <Table.Row>
-                    <Table.HeaderCell>Pelaaja</Table.HeaderCell>
-                    <Table.HeaderCell>Nimi</Table.HeaderCell>
-                </Table.Row>
-            </Table.Header>
-            <Table.Body>
-                {props.scores.filter(x => x.score ? true : false).sort((a, b) => sortPlayerScores(a, b, ascendingOrder)).slice(0, 8).map((x, index) => {
-                    return getPlayerRow(x, index);
-                })}
-            </Table.Body>
+            <th>
+                <td>Pelaaja</td>
+                <td>Nimi</td>
+            </th>
+            {props.scores.filter(x => x.score ? true : false).sort((a, b) => sortPlayerScores(a, b, ascendingOrder)).slice(0, 8).map((x, index) => {
+                return getPlayerRow(x, index);
+            })}
         </Table>
-        : <Loader active inline='centered' />
-
+        :
+        <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>
 }

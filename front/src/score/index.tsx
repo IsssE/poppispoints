@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Loader } from "semantic-ui-react";
+import Spinner from "react-bootstrap/Spinner";
 import { IPlayerResultsWithVariant } from "../../../back/data/interface.model";
 
 interface IListProps {
@@ -21,7 +21,9 @@ const ScoreList: React.FC<IListProps> = (): ReactElement => {
             {
                 scoreList ?
                     <span>new ui here </span> :
-                    <Loader active inline='centered' />
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
             }
         </div>
     )

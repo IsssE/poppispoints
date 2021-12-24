@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Card, Loader } from "semantic-ui-react";
+import Spinner from "react-bootstrap/Spinner";
 import { IPlayerResultsWithVariant, IVariantInfo } from "../../../back/data/interface.model";
 import { IPlayerScoreData } from "../score/interface";
 import { SummaryCard } from "./card";
@@ -20,19 +20,23 @@ export const Overview = (props: IOverviewProps) => {
     }, [])
 
     return (props.variants && playerData) ?
-        <Card.Group>
+        <div>
             {props.variants.map((x, index) => {
                 let data = playerData[x.name] ? playerData[x.name].sort(sortScores) : []
-                return <SummaryCard
-                    key = {index}
-                    variantName={x.name}
-                    playerScore={filterDuplicatePlayerScores(data, x.ascending)}
-                    invertOrder={x.ascending}
-                />
+                if (data) {
+                    return <SummaryCard
+                        key={index}
+                        variantName={x.name}
+                        playerScore={filterDuplicatePlayerScores(data, x.ascending)}
+                        invertOrder={x.ascending}
+                    />
+                }
             })}
-        </Card.Group>
+        </div>
         :
-        <Loader active inline='centered' />
+        <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>
 }
 function sortScores(a: IPlayerScoreData, b: IPlayerScoreData): number {
     return b.score - a.score;

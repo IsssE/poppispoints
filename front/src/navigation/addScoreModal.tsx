@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, CheckboxProps, DropdownProps, Form, Header, Loader, Modal, Radio } from "semantic-ui-react"
+
 import { IGameData, IVariantInfo } from "../../../back/data/interface.model";
 
 interface IModalProps {
@@ -62,7 +62,7 @@ export const AddScoreModal = (props: IModalProps) => {
         setIsLoading(true);
     }
 
-    const handleRadioChange = (e: React.FormEvent<HTMLInputElement>, value: CheckboxProps) => {
+    const handleRadioChange = (e: React.FormEvent<HTMLInputElement>, value: any) => {
         // Was wondering what is the correct way.
         // Do this https://react.semantic-ui.com/collections/form/#usage-capture-values
         // Still need to understand how to typescript it
@@ -71,7 +71,7 @@ export const AddScoreModal = (props: IModalProps) => {
         }
     }
 
-    const handleDropDownVariantChange = (event: React.SyntheticEvent<HTMLElement, Event>, value: DropdownProps) => {
+    const handleDropDownVariantChange = (event: React.SyntheticEvent<HTMLElement, Event>, value: any) => {
         // Was wondering what is the correct way.
         // Do this https://react.semantic-ui.com/collections/form/#usage-capture-values
         // Still need to understand how to typescript it
@@ -80,7 +80,7 @@ export const AddScoreModal = (props: IModalProps) => {
         }
     }
 
-    const handleDropDownCityChange = (event: React.SyntheticEvent<HTMLElement, Event>, value: DropdownProps) => {
+    const handleDropDownCityChange = (event: React.SyntheticEvent<HTMLElement, Event>, value: any) => {
         if (value.value && typeof value.value === "string") {
             setFormState({ ...formState, representation: value.value })
         }
@@ -114,104 +114,5 @@ export const AddScoreModal = (props: IModalProps) => {
         return true;
     }
 
-    return <Modal
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        open={open}
-        trigger={props.openButton}
-    >
-        <Modal.Header>Lisää tulos</Modal.Header>
-        {isLoading ? <Loader /> :
-            <>
-                <Modal.Content>
-                    <Form>
-                        <Form.Group>
-                            <Form.Select
-                                label='Kaupunki'
-                                required
-                                width='4'
-                                placeholder='Kaupunki'
-                                fluid
-                                selection
-                                options={representation}
-                                onChange={handleDropDownCityChange}
-                            />
-                            <Form.Select
-                                label={'Laji'}
-                                required
-                                width='4'
-                                placeholder='Laji'
-                                fluid
-                                selection
-                                options={props.variants.map(v => {
-                                    return { key: v.name, text: v.name, value: v.name }
-                                })}
-                                onChange={handleDropDownVariantChange}
-                            />
-                        </Form.Group>
-                        <Form.Group inline>
-
-                            {league.map((o, index) => {
-                                return <Form.Radio
-                                    key={index}
-                                    control={Radio}
-                                    label={o.text}
-                                    value={o.value}
-                                    checked={formState.league === o.value}
-                                    onChange={handleRadioChange}
-                                />
-                            })}
-                        </Form.Group>
-                        <br />
-                        <Form.Group>
-                            <Form.Input
-                                required
-                                width='6'
-                                label='Pelaajan nimi'
-                                placeholder='Nimi'
-                                onChange={(e) => {
-                                    setFormState({ ...formState, players: { p1: e.target.value } })
-                                }}
-                            />
-
-                            <Form.Input
-                                required
-                                width='3'
-                                label='Tulos'
-                                placeholder='Pisteet'
-                                onChange={(e) => {
-                                    setScoreValue(e.target.value)
-                                    if (!isNaN(scoreValue as any)) {
-                                        const val = Number(e.target.value)
-                                        setFormState({ ...formState, score: val })
-                                    }
-                                }}
-                                // Do error handling correctly with a correct form + validator
-                                error={!(isNaN(scoreValue as any)) ? false : true}
-                            />
-
-                        </Form.Group>
-                        <Header>Todiste tuloksesta (linkki videoon tai Kyykkäliiton kilpailu jossa suoritus tapahtui)</Header>
-                        <Form.Input
-                            required
-                            fluid
-                            placeholder='Linkki tai kilpailun nimi'
-                            onChange={(e) => {
-                                setFormState({ ...formState, proof: e.target.value })
-                            }}
-                        />
-                    </Form>
-                </Modal.Content>
-                <Modal.Actions>
-                    <Button color='blue' onClick={() => setOpen(false)}>
-                        EIKU
-                    </Button>
-                    <Button color='green' disabled={!canSubmit} onClick={() =>  sendNewScore()}>
-                        Lisää
-                    </Button>
-                </Modal.Actions>
-            </>
-        }
-
-    </Modal>
+    return <div>Add in here</div>
 }
