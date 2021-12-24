@@ -38,7 +38,7 @@ const setNewScore = async (req: express.Request<any, any, IGameData, any>, res: 
             res.status(200).send();
         })
     }
-    catch (e) {
+    catch (e: any) {
         res.status(500).send(e.message)
     }
 
@@ -59,7 +59,7 @@ const getVariantScores = async  (req: express.Request<any, any, any, {variant?: 
         
 
         res.status(200).send(await scores);
-    } catch (e) {
+    } catch (e: any) {
         res.status(500).send(e.message);
     }
 }

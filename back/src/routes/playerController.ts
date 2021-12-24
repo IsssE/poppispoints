@@ -23,7 +23,7 @@ const getPlayerScores = async (req: express.Request<any, any, any, {username: st
         
 
         res.status(200).send(scores);
-    } catch (e) {
+    } catch (e:any) {
         res.status(500).send(e.message);
     }
 }

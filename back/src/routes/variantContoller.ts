@@ -6,7 +6,6 @@ export const getVariantRoutes = (): express.Router => {
 
     const router = express.Router()
 
-
     router.get('/', getVariants)
 
     return router
@@ -24,7 +23,7 @@ const getVariants = async  (req: express.Request, res: express.Response<IVariant
         
         res.status(200).send(await result);
     }
-    catch (e) {
+    catch (e: any) {
         res.status(500).send(e.message)
     }
 }
