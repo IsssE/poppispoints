@@ -2,10 +2,9 @@ import React from 'react'
 import { IVariantInfo } from '../../../back/data/interface.model'
 import { NavigationBar } from '../navigation/navigationBar'
 import { Overview } from '../overview'
+import '../sass/popoi.scss';
 
 const Popoi = () => {
-
-
 
     // Move to rexud state
     const [activeMenu, setActiveMenu] = React.useState<string>("Yhteenveto")

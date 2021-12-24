@@ -1,6 +1,4 @@
 import React from "react"
-
-//mport { Header, Loader, Table, Image } from "react-bootstrap"
 import Table from "react-bootstrap/Table";
 import Image from "react-bootstrap/Image";
 import Spinner from "react-bootstrap/Spinner";
@@ -17,24 +15,26 @@ interface IVariantPlayerScoreList {
 export const VariantPlayerScoreList = (props: IVariantPlayerScoreList) => {
     const getPlayerRow = (player: IPlayerScoreData, index: number): JSX.Element => {
         return <tr key={index}>
-            <th>
-                <Image src={getLocationPicture(player.location)} rounded />
-                {player.player}
-
-            </th>
-            <th>{player.score}</th>
+            <td>{player.player}</td>
+            <td>{player.score}</td>
+            <td><Image className="cityIcon" src={getLocationPicture(player.location)} /></td>
         </tr>
     }
     const ascendingOrder = props.invertOrder ? true : false;
     return props.scores ?
-        <Table>
-            <th>
-                <td>Pelaaja</td>
-                <td>Nimi</td>
-            </th>
-            {props.scores.filter(x => x.score ? true : false).sort((a, b) => sortPlayerScores(a, b, ascendingOrder)).slice(0, 8).map((x, index) => {
-                return getPlayerRow(x, index);
-            })}
+        <Table striped bordered hover>
+            <thead>
+                <tr>
+                    <th>Pelaaja</th>
+                    <th>Nimi</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {props.scores.filter(x => x.score ? true : false).sort((a, b) => sortPlayerScores(a, b, ascendingOrder)).slice(0, 8).map((x, index) => {
+                    return getPlayerRow(x, index);
+                })}
+            </tbody>
         </Table>
         :
         <Spinner animation="border" role="status">

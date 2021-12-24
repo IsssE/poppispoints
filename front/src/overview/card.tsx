@@ -15,16 +15,16 @@ export const SummaryCard = (props: ICardProps) => {
 
     return <Card>
         {(props.playerScore && props.playerScore.length > 0) ?
-            <div>
-                <h2 style={{ textAlign: "center" }}>{props.variantName}</h2>
+            <Card.Body>
+                <Card.Title style={{ textAlign: "center" }}>{props.variantName}</Card.Title>
                 <VariantPlayerScoreList scores={props.playerScore} invertOrder={props.invertOrder}/>
                 <VariantCityScores variantPlayerData={props.playerScore} />
 
-            </div>
+            </Card.Body>
             :
-            <div>
+            <Card.Body>
                 <h2 style={{ textAlign: "center" }}>{props.variantName}</h2>
                 <span>No games played or error in data fetch :S</span>
-            </div>}
+            </Card.Body>}
     </Card>
 }
