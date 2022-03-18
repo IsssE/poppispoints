@@ -1,4 +1,5 @@
 import React, { CSSProperties, SyntheticEvent } from 'react'
+import { Container, Nav, Navbar } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 import { IVariantInfo } from '../../../back/data/interface.model'
 import { AddScoreModal } from './addScoreModal'
@@ -30,8 +31,17 @@ export const NavigationBar = (prop: INavigationBarProps) => {
         x.active = prop.active === x.name
     })
 
-    return <div> Button for adding score</div>
-    
+    return <Navbar >
+            <Nav variant="pills" defaultActiveKey={items[0]}>
+
+                {items.map(x => {
+                    return <Nav.Item>
+                        <Nav.Link eventKey={x.key} onClick={(event) => { handleItemClick(event, x) }}>{x.name}</Nav.Link>
+                    </Nav.Item>
+                })}
+            </Nav>
+    </Navbar>
+
 }
 
 const buttonStyle: CSSProperties = {
